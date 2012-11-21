@@ -1,0 +1,29 @@
+    <!DOCTYPE HTML>
+<html>
+    <head>
+        <title>global HTML page</title>
+        <script type="text/javascript">
+            
+            safari.application.addEventListener("message",respondToMessage,false);
+            var originalRequestURL;
+            
+            function respondToMessage(theMessageEvent) {
+                if(theMessageEvent.name === "getUsername") {
+                    var username = safari.extension.secureSettings.getItem('username');
+                    theMessageEvent.target.page.dispatchMessage("returnUsername", username);
+                
+                }else if (theMessageEvent.name === "getPassword") {
+                    var password = safari.extension.secureSettings.getItem('password');
+                    theMessageEvent.target.page.dispatchMessage("returnPassword", password);
+                }else if(theMessageEvent.name == "setOriginalRequestURL"){
+                    originalRequestURL = theMessageEvent.message;
+                    
+                }else if(theMessageEvent.name == "getOriginalRequestURL"){
+                    theMessageEvent.target.page.dispatchMessage("returnOriginalRequestURL", originalRequestURL);
+                }
+            }
+            </script>
+    </head>
+    <body>
+    </body>
+</html>
